@@ -1,12 +1,44 @@
 import React from 'react'
 import {useForm} from 'react-hook-form'
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
+import { useState } from 'react';
 
 function Signup() {
   let{register,handleSubmit}=useForm();
+  let navigate=useNavigate();
+    let [err,setErr]=useState('');
 
-  function handleFormSubmit(userobj){
-    console.log(userobj);
-  }
+   async function handleFormSubmit(userObj){
+    try{
+       
+        if(userObj.type==='user'){
+        let res=await axios.post('http://localhost:3000/userapi/register',userObj);
+       console.log("response is",res);
+        if(res.data.message==='User registered successfully'){
+            navigate('/signin');
+        }
+        else{
+            setErr(res.data.message);
+        }}
+        else if(userObj.type==='author'){
+            let res=await axios.post('http://localhost:3000/authorapi/author',userObj);
+           
+            if(res.data.message==='author registered'){
+                navigate('/signin');
+            }
+            else{
+                setErr(res.data.message);
+            }
+        }
+    }catch (error) {
+        setErr(error.response.data.message);
+        console.log(err);
+    }
+       
+    }
+
+  
  
   return (
     <div>

@@ -5,6 +5,8 @@ import Root from './pages/Root';
 import Home from './pages/Home';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup'
+import Userprofile from './pages/Userprofile';
+// import Adminprofile from './pages/adminProfile';
 
 function App() {
  let router=createBrowserRouter([
@@ -24,7 +26,15 @@ function App() {
         {
           path:'signup',
           element:<Signup/>
-        }
+        },
+        {
+          path:'userprofile',
+          element:<Userprofile/>
+        },
+        // {
+        //   path:'adminprofile',
+        //   element:<Adminprofile/>
+        // }
       ]
     }
   ])
