@@ -8,13 +8,14 @@ const app = express();
 const DB_URL = process.env.MONGO_URL;
 const PORT = process.env.PORT || 4000;
 
+// Middleware to parse JSON bodies
 app.use(express.json());
 
-// if path starts with user-api
+// Routes
 app.use('/userapi', userApp);
 app.use('/adminapi', adminApp);
 
-// connecting to mongodb
+// Connect to MongoDB and start the server
 mongoose.connect(DB_URL)
   .then(() => {
     console.log('Connected to MongoDB');
