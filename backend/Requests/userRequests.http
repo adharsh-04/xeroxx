@@ -1,0 +1,13 @@
+GET http://localhost:3000/userapi/test
+
+###
+//request for user registration
+POST http://localhost:3000/userapi/user
+Content-Type: application/json
+
+{
+    "userType":"user",
+    "username":"user1",
+    "email":"user1@gmail.com",
+    "password":"user1"
+}
