@@ -18,7 +18,7 @@ userApp.post('/register', async (req, res) => {
     // Check if the user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).send('User already exists');
+      return res.status(400).send({ message: 'User already exists' });
     }
 
     // Hash the password
@@ -31,14 +31,13 @@ userApp.post('/register', async (req, res) => {
       email,
       password: hashedPassword,
     });
-  
 
     // Save the user to the database
     await user.save();
 
     res.status(201).send({ message: 'User registered successfully' });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send({ message: 'Server error' });
   }
 });
 
@@ -50,21 +49,21 @@ userApp.post('/login', async (req, res) => {
     // Find the user by email
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(400).send('Invalid email or password');
+      return res.status(400).send({ message: 'Invalid username or password' });
     }
 
     // Compare the password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).send('Invalid email or password');
+      return res.status(400).send({ message: 'Invalid username or password' });
     }
 
     // Generate a JWT token
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    res.status(200).send({ message: 'Login successful', token });
+    res.status(200).send({ message: 'Login successful', token, user });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send({ message: 'Server error' });
   }
 });
 
